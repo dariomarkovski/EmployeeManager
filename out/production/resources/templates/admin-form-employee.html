@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -30,10 +30,6 @@
             width: 70% !important;
         }
 
-        a:hover {
-            text-decoration: none;
-        }
-
         .button-anchor {
             color: white !important;
         }
@@ -42,44 +38,22 @@
             background-color: cornflowerblue;
             border-color: cornflowerblue;
         }
-
-        .navbar {
-            display: flex;
-            margin-bottom: 10px;
-            justify-content: space-between;
-        }
-
-        .nav-item {
-            color: white !important;
-        }
-
-        .nav-item:hover {
-            color: grey !important;
-        }
-
-        .title-item {
-            color: white !important;;
-            size: 16px;
-        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="title-item">HOME</div>
-    <div>
-        <div th:if="${employee.role.name() == 'ROLE_ADMIN'}"
-             th:insert="~{fragments/fragments :: admin-fragment}"></div>
-        <div th:if="${employee.role.name() == 'ROLE_MANAGER'}"
-             th:insert="~{fragments/fragments :: manager-fragment}"></div>
-    </div>
-</nav>
+<h3>REGISTER</h3>
 
-<form th:object="${employee}">
+<form method="post" th:action="@{(${admin.role.name() == 'ROLE_ADMIN'} ? '/admin-new-employee' : '/manager-new-employee')}" th:object="${employee}">
 
     <div class="form-group col-sm-10">
         <label>Email Address:</label>
         <input class="form-control" type="text" th:field="*{email}"/>
+    </div>
+
+    <div class="form-group col-sm-10">
+        <label>Password:</label>
+        <input class="form-control" type="password" th:field="*{password}"/>
     </div>
 
     <div class="form-group col-sm-10">
@@ -115,13 +89,36 @@
 
         <label>Department: </label>
         <select class="form-control" th:field="*{department}">
-            <option th:value="null" th:text="None"></option>
             <option th:each="department : ${departments}"
                     th:value="${department.id}"
                     th:text="${department.name}"></option>
         </select>
 
+    </div>
 
+    <div class="form-group col-sm-10">
+        <label>Role:</label>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" th:field="*{role}" value="ROLE_EMPLOYEE"
+                       checked>
+                <label class="form-check-label">
+                    Employee
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" th:field="*{role}" value="ROLE_MANAGER">
+                <label class="form-check-label">
+                    Manager
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" th:field="*{role}" value="ROLE_ADMIN">
+                <label class="form-check-label">
+                    Admin
+                </label>
+            </div>
+        </div>
     </div>
 
     <div class="form-group col-sm-10">
@@ -129,13 +126,10 @@
         <input type="date" th:field="*{birthDate}">
     </div>
 
-    <div class="form-group col-sm-10">
-        <a th:href="@{/change-password}">Change Password</a>
-    </div>
-
     <div class="col-sm-10">
-        <input class="btn btn-primary" type="submit" value="Submit Changes">
-        <a class="btn btn-dark button-anchor" th:href="@{/logout}">Log Out</a>
+        <input class="btn btn-primary" type="submit" value="Save Employee">
+        <a th:if="${admin.role.name() == 'ROLE_ADMIN'}" class="btn btn-primary button-anchor" th:href="@{/admin}">Go Back</a>
+        <a th:if="${admin.role.name() == 'ROLE_MANAGER'}" class="btn btn-primary button-anchor" th:href="@{/manager}">Go Back</a>
     </div>
 
 </form>

@@ -38,6 +38,14 @@
             background-color: cornflowerblue;
             border-color: cornflowerblue;
         }
+        .social-login{
+            margin: 10px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .social-login-item{
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -70,6 +78,17 @@
         <a class="btn btn-primary button-anchor" th:href="@{/register}">Register</a>
     </div>
 </form>
+
+<div class="social-login">
+    <div class="social-login-item">
+        <!--<img src="../static/facebook-logo.png" height="20px" width="20px">-->
+        Facebook: <a href="/login/facebook">Login Here</a>
+    </div>
+    <div class="social-login-item">
+        <!--<img src="../static/github-logo.png" height="20px" width="20px">-->
+        Github: <a href="/login/github">Login Here</a>
+    </div>
+</div>
 
 </body>
 </html>

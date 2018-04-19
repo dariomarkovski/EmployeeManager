@@ -30,6 +30,10 @@
             width: 70% !important;
         }
 
+        a:hover {
+            text-decoration: none;
+        }
+
         .button-anchor {
             color: white !important;
         }
@@ -38,11 +42,38 @@
             background-color: cornflowerblue;
             border-color: cornflowerblue;
         }
+
+        .navbar {
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: space-between;
+        }
+
+        .nav-item {
+            color: white !important;
+        }
+
+        .nav-item:hover {
+            color: grey !important;
+        }
+
+        .title-item {
+            color: white !important;;
+            size: 16px;
+        }
     </style>
 </head>
 <body>
 
-<h3>HOME</h3>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="title-item">HOME</div>
+    <div>
+        <div th:if="${employee.role.name() == 'ROLE_ADMIN'}"
+             th:insert="~{fragments/fragments :: admin-fragment}"></div>
+        <div th:if="${employee.role.name() == 'ROLE_MANAGER'}"
+             th:insert="~{fragments/fragments :: manager-fragment}"></div>
+    </div>
+</nav>
 
 <form th:object="${employee}">
 
@@ -84,6 +115,7 @@
 
         <label>Department: </label>
         <select class="form-control" th:field="*{department}">
+            <option th:value="null" th:text="None"></option>
             <option th:each="department : ${departments}"
                     th:value="${department.id}"
                     th:text="${department.name}"></option>

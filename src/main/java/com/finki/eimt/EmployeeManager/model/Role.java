@@ -1,5 +1,5 @@
 package com.finki.eimt.EmployeeManager.model;
 
 public enum Role {
-    EMPLOYEE, MANAGER, ADMIN
+    ROLE_EMPLOYEE, ROLE_MANAGER, ROLE_ADMIN
 }

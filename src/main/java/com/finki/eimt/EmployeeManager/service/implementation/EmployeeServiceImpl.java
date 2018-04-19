@@ -1,5 +1,6 @@
 package com.finki.eimt.EmployeeManager.service.implementation;
 
+import com.finki.eimt.EmployeeManager.model.Department;
 import com.finki.eimt.EmployeeManager.model.Employee;
 import com.finki.eimt.EmployeeManager.model.Role;
 import com.finki.eimt.EmployeeManager.persistence.EmployeeDao;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee registerEmployee(Employee employee) {
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         employee.setActivated(false);
-        employee.setRole(Role.EMPLOYEE);
+        employee.setRole(Role.ROLE_EMPLOYEE);
         employee.setRegistrationDate(LocalDateTime.now());
         String randomString = UUID.randomUUID().toString();
         employee.setActivationCode(randomString);
@@ -67,5 +69,51 @@ public class EmployeeServiceImpl implements EmployeeService {
             System.out.println("Password don't match");
             return null;
         }
+    }
+
+    @Override
+    public List<Employee> getNonActivatedEmployees() {
+        return employeeDao.findAllByActivated(false);
+    }
+
+    @Override
+    public long deleteEmployee(String email) {
+        return employeeDao.deleteByEmail(email);
+    }
+
+    @Override
+    public long countEmployees() {
+        return employeeDao.count();
+    }
+
+    @Override
+    public Employee saveEmployee(Employee employee) {
+        return employeeDao.save(employee);
+    }
+
+    @Override
+    public Employee saveEmployeeFromAdmin(Employee employee) {
+        employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+        employee.setActivated(true);
+        employee.setRegistrationDate(LocalDateTime.now());
+        return employeeDao.save(employee);
+    }
+
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeDao.findAll();
+    }
+
+    @Override
+    public List<Employee> getAllEmployeesForManager(String email) {
+        Employee manager = employeeDao.findByEmail(email);
+        Department department = manager.getDepartment();
+        return employeeDao.findAllByDepartment(department);
+    }
+
+    @Override
+    public Employee getEmployeeFromEmail(String email) {
+        return employeeDao.findByEmail(email);
     }
 }

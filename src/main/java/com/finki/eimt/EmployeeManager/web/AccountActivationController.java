@@ -1,7 +1,5 @@
 package com.finki.eimt.EmployeeManager.web;
 
-import com.finki.eimt.EmployeeManager.model.Employee;
-import com.finki.eimt.EmployeeManager.persistence.EmployeeDao;
 import com.finki.eimt.EmployeeManager.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,7 @@ public class AccountActivationController {
     private EmployeeService employeeService;
 
     @Autowired
-    public AccountActivationController(EmployeeService employeeService){
+    public AccountActivationController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
