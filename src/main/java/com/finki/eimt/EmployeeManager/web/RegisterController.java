@@ -31,7 +31,7 @@ public class RegisterController {
     @PostMapping(value = "/register")
     public String postRegister(@ModelAttribute Employee employee) {
         employeeService.registerEmployee(employee);
-        return "redirect:/activation/";
+        return "redirect:/activation";
     }
 
 }

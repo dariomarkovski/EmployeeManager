@@ -30,7 +30,7 @@ public class PasswordController {
     @PostMapping("/reset-password")
     public String postResetPassword(@RequestParam String email) {
         employeeService.resetPassword(email);
-        return "redirect:/login/";
+        return "redirect:/login";
     }
 
     @GetMapping("/change-password")

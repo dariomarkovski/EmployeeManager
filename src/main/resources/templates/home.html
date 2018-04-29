@@ -65,7 +65,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
+<nav th:if="${employee != null}" class="navbar navbar-dark bg-dark">
     <div class="title-item">HOME</div>
     <div>
         <div th:if="${employee.role.name() == 'ROLE_ADMIN'}"
@@ -75,7 +75,7 @@
     </div>
 </nav>
 
-<form th:object="${employee}">
+<form th:if="${employee != null}" th:object="${employee}">
 
     <div class="form-group col-sm-10">
         <label>Email Address:</label>
@@ -139,6 +139,13 @@
     </div>
 
 </form>
+
+<div th:if="${employee == null}">
+    <div class="col-sm-12" th:text="${principal.getName()}"></div>
+    <div class="col-sm-10">
+        <a class="btn btn-dark button-anchor" th:href="@{/logout}">Log Out</a>
+    </div>
+</div>
 
 </body>
 </html>

@@ -50,6 +50,14 @@ public class AdminController {
         return "redirect:/admin/";
     }
 
+    @GetMapping("/admin-edit-employee/{email}")
+    public String getAdminEditEmployee(@PathVariable String email, Principal principal, Model model) {
+        model.addAttribute("employee", employeeService.getEmployeeFromEmail(email));
+        model.addAttribute("admin", employeeService.getEmployeeFromEmail(principal.getName()));
+        model.addAttribute("departments", departmentService.findAllDepartments());
+        return "admin-form-employee";
+    }
+
     @PostMapping("/admin-delete-employee/{email}")
     public String deleteAdminDeleteEmployee(@PathVariable String email) {
         employeeService.deleteEmployee(email);
@@ -78,9 +86,28 @@ public class AdminController {
         return "admin-form-employee";
     }
 
-    @PostMapping
-    String postManagerNewEmployee(@ModelAttribute Employee employee, Principal principal) {
+    @PostMapping("/manager-new-employee")
+    public String postManagerNewEmployee(@ModelAttribute Employee employee, Principal principal) {
         employeeService.saveEmployeeFromAdmin(employee);
         return "redirect:/manager/";
     }
+
+    @GetMapping("/manager-edit-employee/{email}")
+    public String getManagerEditEmployee(@PathVariable String email, Principal principal, Model model) {
+        model.addAttribute("employee", employeeService.getEmployeeFromEmail(email));
+        model.addAttribute("admin", employeeService.getEmployeeFromEmail(principal.getName()));
+        Employee employee = employeeService.getEmployeeFromEmail(principal.getName());
+        Department department = employee.getDepartment();
+        List<Department> departments = new ArrayList<>();
+        departments.add(department);
+        model.addAttribute("departments", departments);
+        return "admin-form-employee";
+    }
+
+    @PostMapping("/manager-delete-employee/{email}")
+    public String deleteManagerDeleteEmployee(@PathVariable String email) {
+        employeeService.deleteEmployee(email);
+        return "redirect:/manager/";
+    }
+
 }

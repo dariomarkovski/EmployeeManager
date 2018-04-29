@@ -1,8 +1,10 @@
 package com.finki.eimt.EmployeeManager.init;
 
+import com.finki.eimt.EmployeeManager.model.Department;
 import com.finki.eimt.EmployeeManager.model.Employee;
 import com.finki.eimt.EmployeeManager.model.Gender;
 import com.finki.eimt.EmployeeManager.model.Role;
+import com.finki.eimt.EmployeeManager.service.DepartmentService;
 import com.finki.eimt.EmployeeManager.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 public class EmployeeInit {
 
     private EmployeeService employeeService;
+    private DepartmentService departmentService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${employee.email}")
@@ -32,8 +35,9 @@ public class EmployeeInit {
     private String employeeRole;
 
     @Autowired
-    public EmployeeInit(EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public EmployeeInit(EmployeeService employeeService, DepartmentService departmentService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeService = employeeService;
+        this.departmentService = departmentService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -50,6 +54,17 @@ public class EmployeeInit {
             employee.setRegistrationDate(LocalDateTime.now());
             employee.setRole(Role.valueOf(employeeRole));
             employeeService.saveEmployee(employee);
+        }
+        if (departmentService.findAllDepartments().size() == 0) {
+            Department itDepartment = new Department();
+            itDepartment.name = "IT Department";
+            Department hrDepartment = new Department();
+            hrDepartment.name = "HR Department";
+            Department execDepartment = new Department();
+            execDepartment.name = "Executive Department";
+            departmentService.saveDepartment(itDepartment);
+            departmentService.saveDepartment(hrDepartment);
+            departmentService.saveDepartment(execDepartment);
         }
     }
 }

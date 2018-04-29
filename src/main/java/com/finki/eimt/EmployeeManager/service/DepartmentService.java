@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DepartmentService {
     List<Department> findAllDepartments();
+
+    Department saveDepartment(Department department);
 }

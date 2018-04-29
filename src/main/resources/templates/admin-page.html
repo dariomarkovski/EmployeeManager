@@ -60,7 +60,10 @@
         <td th:text="${employee.firstName}"></td>
         <td th:text="${employee.lastName}"></td>
         <td class="btn-row">
-            <button class="btn btn-primary">Edit</button> <!--TODO-->
+            <a th:if="${admin.role.name() == 'ROLE_ADMIN'}" class="btn btn-primary"
+               th:href="@{/admin-edit-employee/{email}(email=${employee.email})}">Edit</a>
+            <a th:if="${admin.role.name() == 'ROLE_MANAGER'}" class="btn btn-primary"
+               th:href="@{/manager-edit-employee/{email}(email=${employee.email})}">Edit</a>
             <form method="post" th:if="${admin.role.name() == 'ROLE_ADMIN'}" th:action="@{/admin-delete-employee/{email}(email=${employee.email})}">
                 <input type="submit" value="Delete" class="btn btn-danger"/>
             </form>
