@@ -75,7 +75,7 @@
     </div>
 </nav>
 
-<form th:if="${employee != null}" th:object="${employee}">
+<form th:if="${employee != null}" method="post" th:action="@{/saveChanges}" th:object="${employee}">
 
     <div class="form-group col-sm-10">
         <label>Email Address:</label>

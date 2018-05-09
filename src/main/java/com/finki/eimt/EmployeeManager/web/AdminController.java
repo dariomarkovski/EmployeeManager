@@ -27,10 +27,13 @@ public class AdminController {
     }
 
     @GetMapping("/admin")
-    public String getAdmin(Model model, Principal principal) {
+    public String getAdmin(Model model, Principal principal, @RequestParam(defaultValue = "1") int currentPage) {
         Employee admin = employeeService.getEmployeeFromEmail(principal.getName());
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getEmployeesPage(currentPage);
+        int totalPages = employeeService.getTotalPages();
         model.addAttribute("admin", admin);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
         model.addAttribute("employees", employees);
         return "admin-page";
     }

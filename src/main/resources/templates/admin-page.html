@@ -34,6 +34,10 @@
             text-decoration: none !important;
             color: grey !important;
         }
+
+        .borderless {
+            border: 0 !important;
+        }
     </style>
 </head>
 <body>
@@ -41,7 +45,8 @@
 <nav class="navbar navbar-dark bg-dark">
     <a class="nav-item" th:href="@{/}">Go Back To Home</a>
     <a th:if="${admin.role.name() == 'ROLE_ADMIN'}" class="nav-item" th:href="@{/admin-new-employee}">Add Employee</a>
-    <a th:if="${admin.role.name() == 'ROLE_MANAGER'}" class="nav-item" th:href="@{/manager-new-employee}">Add Employee</a>
+    <a th:if="${admin.role.name() == 'ROLE_MANAGER'}" class="nav-item" th:href="@{/manager-new-employee}">Add
+        Employee</a>
 </nav>
 
 <table class="table table-bordered table-striped">
@@ -64,15 +69,27 @@
                th:href="@{/admin-edit-employee/{email}(email=${employee.email})}">Edit</a>
             <a th:if="${admin.role.name() == 'ROLE_MANAGER'}" class="btn btn-primary"
                th:href="@{/manager-edit-employee/{email}(email=${employee.email})}">Edit</a>
-            <form method="post" th:if="${admin.role.name() == 'ROLE_ADMIN'}" th:action="@{/admin-delete-employee/{email}(email=${employee.email})}">
+            <form method="post" th:if="${admin.role.name() == 'ROLE_ADMIN'}"
+                  th:action="@{/admin-delete-employee/{email}(email=${employee.email})}">
                 <input type="submit" value="Delete" class="btn btn-danger"/>
             </form>
-            <form method="post" th:if="${admin.role.name() == 'ROLE_MANAGER'}" th:action="@{/manager-delete-employee/{email}(email=${employee.email})}">
+            <form method="post" th:if="${admin.role.name() == 'ROLE_MANAGER'}"
+                  th:action="@{/manager-delete-employee/{email}(email=${employee.email})}">
                 <input type="submit" value="Delete" class="btn btn-danger"/>
             </form>
         </td>
     </tr>
     </tbody>
+
+</table>
+
+<table class="table borderless">
+    <td>
+        <a th:if="${currentPage > 1 }" th:href="@{/admin(currentPage=${currentPage - 1})}">Previous</a>
+    </td>
+    <td>
+        <a th:if="${currentPage < totalPages}" th:href="@{/admin(currentPage=${currentPage + 1})}">Next</a>
+    </td>
 </table>
 
 </body>

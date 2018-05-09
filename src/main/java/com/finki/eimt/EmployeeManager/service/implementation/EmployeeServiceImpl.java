@@ -7,6 +7,8 @@ import com.finki.eimt.EmployeeManager.persistence.EmployeeDao;
 import com.finki.eimt.EmployeeManager.service.EmployeeService;
 import com.finki.eimt.EmployeeManager.service.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -92,6 +94,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee saveEmployeeChanges(String email, Employee employee){
+        System.out.println(employee.getFirstName());
+        System.out.println(employee.isActivated());
+        System.out.println(employee.getRole());
+
+        Employee newEmployeeObject = employeeDao.findByEmail(email);
+        newEmployeeObject.setEmail(employee.getEmail());
+        newEmployeeObject.setFirstName(employee.getFirstName());
+        newEmployeeObject.setLastName(employee.getLastName());
+        newEmployeeObject.setLastName(employee.getLastName());
+        newEmployeeObject.setGender(employee.getGender());
+        newEmployeeObject.setDepartment(employee.getDepartment());
+        newEmployeeObject.setBirthDate(employee.getBirthDate());
+
+        employeeDao.deleteByEmail(email);
+        employeeDao.save(newEmployeeObject);
+
+        return newEmployeeObject;
+    }
+
+    @Override
     public Employee saveEmployeeFromAdmin(Employee employee) {
         employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
         employee.setActivated(true);
@@ -115,5 +138,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee getEmployeeFromEmail(String email) {
         return employeeDao.findByEmail(email);
+    }
+
+    @Override
+    public List<Employee> getEmployeesPage(int currentPage) {
+        Page<Employee> employeePage = employeeDao.findAll(PageRequest.of(currentPage - 1, 5));
+        List<Employee> employeeList = employeePage.getContent();
+        return employeeList;
+    }
+
+    @Override
+    public int getTotalPages() {
+        return (int) Math.ceil(employeeDao.count() / 5.0);
     }
 }

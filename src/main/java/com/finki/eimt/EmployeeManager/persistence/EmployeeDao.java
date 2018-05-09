@@ -2,6 +2,8 @@ package com.finki.eimt.EmployeeManager.persistence;
 
 import com.finki.eimt.EmployeeManager.model.Department;
 import com.finki.eimt.EmployeeManager.model.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +25,6 @@ public interface EmployeeDao extends CrudRepository<Employee, String> {
     List<Employee> findAll();
 
     List<Employee> findAllByDepartment(Department department);
+
+    Page<Employee> findAll(Pageable pageable);
 }

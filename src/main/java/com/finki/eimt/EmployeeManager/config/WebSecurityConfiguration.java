@@ -56,8 +56,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").usernameParameter("email").passwordParameter("password")
                 .and().rememberMe().rememberMeParameter("remember-me")
-                .rememberMeCookieName("employee-manager-remember")
-                .userDetailsService(employeeUserDetailsServiceImpl)
+                    .rememberMeCookieName("employee-manager-remember")
+                    .userDetailsService(employeeUserDetailsServiceImpl)
                 .and().logout().logoutSuccessUrl("/login").deleteCookies("employee-manager-remember").permitAll()
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
     }

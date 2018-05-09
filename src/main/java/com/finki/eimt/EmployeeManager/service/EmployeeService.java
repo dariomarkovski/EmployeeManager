@@ -22,6 +22,8 @@ public interface EmployeeService {
 
     Employee saveEmployee(Employee employee);
 
+    Employee saveEmployeeChanges(String email, Employee employee);
+
     Employee saveEmployeeFromAdmin(Employee employee);
 
     List<Employee> getAllEmployees();
@@ -29,4 +31,8 @@ public interface EmployeeService {
     List<Employee> getAllEmployeesForManager(String email);
 
     Employee getEmployeeFromEmail(String email);
+
+    List<Employee> getEmployeesPage(int currentPage);
+
+    int getTotalPages();
 }
